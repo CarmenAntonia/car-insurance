@@ -28,15 +28,18 @@ public class InsurancePolicyService {
     public InsurancePolicy updateInsurance(Long id, InsurancePolicyDto insurancePolicyDto) {
         validateDto(insurancePolicyDto);
 
-        InsurancePolicy existing = insurancePolicyRepository.findById(id)
+        InsurancePolicy existing = insurancePolicyRepository.findInsurancePolicyWithCarId(id, insurancePolicyDto.carId())
                 .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Insurance policy with ID " + id + " not found"));
+                        HttpStatus.NOT_FOUND, "Insurance policy with ID " + id + " for car with ID " + insurancePolicyDto.carId() + " not found"));
 
         insurancePolicyMapper.updateEntity(existing, insurancePolicyDto);
         return insurancePolicyRepository.save(existing);
     }
 
     private void validateDto(InsurancePolicyDto dto) {
+        if(dto.carId() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Car ID is required");
+        }
         if (dto.provider() == null || dto.provider().isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Provider name must be set");
         }
