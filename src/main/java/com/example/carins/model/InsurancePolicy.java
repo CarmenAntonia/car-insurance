@@ -8,16 +8,18 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "insurancepolicy")
 public class InsurancePolicy {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Car car;
 
     private String provider;
     private LocalDate startDate;
 
     @NotNull
+    @Column(nullable = false)
     private LocalDate endDate; // nullable == open-ended
 
     public InsurancePolicy() {}
