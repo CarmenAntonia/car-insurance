@@ -17,7 +17,7 @@ public class Car {
     private String model;
     private int yearOfManufacture;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Owner owner;
 
     public Car() {}
