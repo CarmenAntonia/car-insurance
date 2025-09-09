@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface InsurancePolicyRepository extends JpaRepository<InsurancePolicy, Long> {
@@ -18,6 +19,10 @@ public interface InsurancePolicyRepository extends JpaRepository<InsurancePolicy
            "and p.startDate <= :date " +
            "and (p.endDate is not null and p.endDate >= :date)")
     boolean existsActiveOnDate(@Param("carId") Long carId, @Param("date") LocalDate date);
+
+    @Query("select p from InsurancePolicy p " +
+            "where p.id = :insuranceId and p.car.id = :carId")
+    Optional<InsurancePolicy> findInsurancePolicyWithCarId(@Param("insuranceId") Long insuranceId, @Param("carId") Long carId);
 
     List<InsurancePolicy> findByCarId(Long carId);
 }
