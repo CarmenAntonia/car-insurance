@@ -66,7 +66,7 @@ public class InsuranceClaimService {
                 .forEach(p -> history.add(new CarHistoryDto(
                         CarEvent.Insurance_Policy,
                         p.getStartDate(),
-                        "Provider for insurance is "+ p.getProvider(),
+                        p.getProvider() != null ? "Provider for insurance is "+ p.getProvider() : null,
                         null
                 )));
 

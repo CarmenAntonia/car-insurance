@@ -5,12 +5,13 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "car")
+@Table(name = "car", uniqueConstraints = @UniqueConstraint(columnNames = "vin"))
 public class Car {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank @Size(min = 5, max = 32)
+    @Column(nullable = false, unique = true)
     private String vin;
 
     private String make;

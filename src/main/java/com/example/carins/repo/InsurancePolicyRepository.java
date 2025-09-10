@@ -25,4 +25,8 @@ public interface InsurancePolicyRepository extends JpaRepository<InsurancePolicy
     Optional<InsurancePolicy> findInsurancePolicyWithCarId(@Param("insuranceId") Long insuranceId, @Param("carId") Long carId);
 
     List<InsurancePolicy> findByCarId(Long carId);
+
+    @Query("select p from InsurancePolicy p " +
+            "where p.endDate = :today and p.isExpiredLogged = false")
+    List<InsurancePolicy> findExpired(@Param("today") LocalDate today);
 }
